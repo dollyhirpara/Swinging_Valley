@@ -6,9 +6,7 @@ Lila Games · Game Designer Test · Part 1 · Question 1.
 ![Swinging Valley](docs/img/13_play_gloves.jpg)
 
 - **Play:** `https://dollyhirpara.github.io/Swinging_Valley/` (Ink & Paper look)
-- **Write-up (interactive slides):** `https://dollyhirpara.github.io/Swinging_Valley/presentation.html` (← / → to move, O for overview)
 - **Every rule in one place:** [docs/GAME_RULES.md](docs/GAME_RULES.md) (controls, enemies, kills, D1 Grip Gloves, economy)
-- **Alternate look:** `golden-hour.html` plays exactly the same game in the earlier Golden Hour art style.
 
 ## How to play
 - **Tap a hook** to grab it and swing. Each vine has **3 hooks**, so you choose the height. **Tap the next hook** to jump to it before your grip runs out, or tap empty sky to let go and fly. Vine spacing changes every run.
@@ -42,7 +40,7 @@ Lila Games · Game Designer Test · Part 1 · Question 1.
 
 ## Tech
 - One self-contained `index.html`: HTML5 Canvas and plain JavaScript. No libraries, no build step, no server.
-- **Art, icons and audio are all generated in code**: a painted golden-hour valley (parallax mountains, baked sun rays, cliffs with strata and moss), lit characters, glow particles, and a WebAudio synth for every sound effect plus a light marimba music loop. No image or sound files to load.
+- **Art, icons and audio are all generated in code**: a hand-painted ink-and-paper valley (wash mountains, a red sun, brush-stroke vines, stone cliffs, falling petals), brush-outlined characters, and a WebAudio synth for every sound effect plus a light marimba music loop. No image or sound files to load.
 - Rendering adapts to the device: it renders at up to 2× pixel density and steps down automatically if frames get slow. Physics runs on a fixed step either way, so the game plays the same at any frame rate.
 - Every gameplay and economy number is in the `TUNING` object at the top of the script.
 - Fixed 1/120 s physics step. The game area is 1280×720 logical units, letterboxed to fit the screen.

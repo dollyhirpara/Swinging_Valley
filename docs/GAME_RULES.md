@@ -11,8 +11,6 @@ Each enemy has one job: **outrun the bugs, dodge the ninjas, hunt the birds**. B
 | Item | Link |
 | --- | --- |
 | Play (Ink & Paper) | [dollyhirpara.github.io/Swinging_Valley](https://dollyhirpara.github.io/Swinging_Valley/) |
-| Write-up slides | [presentation.html](https://dollyhirpara.github.io/Swinging_Valley/presentation.html) |
-| Alternate look | [golden-hour.html](https://dollyhirpara.github.io/Swinging_Valley/golden-hour.html) |
 | Code | [github.com/dollyhirpara/Swinging_Valley](https://github.com/dollyhirpara/Swinging_Valley) |
 
 ## Controls and swing
