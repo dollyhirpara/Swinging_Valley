@@ -15,9 +15,9 @@ Lila Games · Game Designer Test · Part 1 · Question 1.
 - **Energy is your health:** hits, falls and poison take it (the hit shows as a big number over the hero and a red chip on the energy bar); energy bolts appear once you are hurt and give it back. No drain for hanging or swinging, but the valley gets more dangerous the longer you last.
 - **The top bar:** energy on the left, run time and coins from this run in the middle, golden birds caught on the right, and a pause button.
 - **Enemies arrive one stage at a time,** each introduced by one short screen before the run:
-  - **Run 1, shooter bugs:** they fire from the valley floor when you hang still; swing fast and they lose you (−10).
+  - **Run 1, shooter bugs:** they fire from the valley floor when you hang still; swing fast and they lose you (−8).
   - **Run 2, golden birds:** they carry the coins. Swing into one to catch it: **20 coins**, and a 2nd or 3rd within 4 s pays ×2 / ×3. A rare red ruby bird also drops a ruby. Their green poison air still drains energy. Bird kills never give energy.
-  - **Run 3, ninjas:** bigger and harder-hitting (−18). A faint "!" while one watches you, a red "!" just before it leaps; be swinging fast and it misses. DEF and INV bubbles unlock here.
+  - **Run 3, ninjas:** bigger and harder-hitting (−14). A faint "!" while one watches you, a red "!" just before it leaps; be swinging fast and it misses. DEF and INV bubbles unlock here.
 - There are no free coin pickups: coins come from golden birds and missions.
 - Desktop: click hooks, or `Space` to grab the hook ahead / let go. `G` wears a glove; `1` and `2` trigger the bubbles; `P` or `Esc` pauses. `M` (or the 🔊 button on the home screen) turns sound on or off. The game also pauses when you leave the tab.
 

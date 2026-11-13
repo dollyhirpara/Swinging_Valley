@@ -44,10 +44,10 @@ Energy is health, not a timer: hanging, swinging and standing cost nothing. The 
 | Source | Effect |
 | --- | --- |
 | Start | 100 energy (+10 per Max-energy upgrade) |
-| Bug spit | −10, then 0.6 s invulnerable |
-| Ninja leap | −18, once per leap |
-| Fall to the valley floor | −15, respawn on the nearer cliff, 1 s safe |
-| Poison cloud | up to −14 per second while inside, scaling down as the cloud fades |
+| Bug spit | −8, then 0.6 s invulnerable |
+| Ninja leap | −14, once per leap |
+| Fall to the valley floor | −12, respawn on the nearer cliff, 1 s safe |
+| Poison cloud | up to −11 per second while inside, scaling down as the cloud fades |
 | Energy bolt | +12; only once you are below 80% energy and past 8 s, one every 9–13 s, max 2, flies into the energy bar |
 | Golden bird catch | no energy (coins and missions only) |
 
@@ -62,7 +62,7 @@ Enemies arrive one stage at a time so a new player meets one idea per run; only 
 | From | Run 1 | Run 2 | Run 3 |
 | Job | Punish hanging still | Carry the coins | Punish your low point |
 | Where | Walk the valley floor; max 4 enemies in run 1, 5 in run 2, 6 from run 3 | Fly across between the cliffs; a new one every 4–7 s, max 2 | Cling to the inner cliff walls; max 2; none in a run's first 8 s |
-| Attack | Lock on faster the slower you are; a red aim line and lock-on ring, then a spit (−10) | Fly below the lowest hook line. Every 7–11 s glow 0.8 s, then puff a poison column that shoots up in 0.35 s from just above the lowest hook line to the top of the screen (no gas at bird level), holds 2.5 s and fades over 3 s (up to −14/s) | While you hang, it predicts your next low point, shows a faint "!" while watching and a red "!" 0.35 s before leaping (−18) |
+| Attack | Lock on faster the slower you are; a red aim line and lock-on ring, then a spit (−8) | Fly below the lowest hook line. Every 7–11 s glow 0.8 s, then puff a poison column that shoots up in 0.35 s from just above the lowest hook line to the top of the screen (no gas at bird level), holds 2.5 s and fades over 3 s (up to −11/s) | While you hang, it predicts your next low point, shows a faint "!" while watching and a red "!" 0.35 s before leaping (−14) |
 | Your answer | Swing above 460 and they lose you | Swing into one (above 260): 20 coins | Be above 480 when it arrives and the leap misses ("dodged!") |
 | Can be killed | No | **Yes** | No |
 

@@ -449,7 +449,7 @@ const TUNING = {
   // energy = health (no drain for hanging, swinging or standing — removed after playtest)
   baseMaxEnergy: 100, energyPerUpgrade: 10,
   hangSpeed: 160, hitInvuln: 0.6, fallInvuln: 1.0,
-  spitDamage: 10, ninjaDamage: 18, fallDamage: 15, poisonDps: 14,
+  spitDamage: 8, ninjaDamage: 14, fallDamage: 12, poisonDps: 11,
   dangerPerSecond: 0.025,   // the valley gets more dangerous: aim speed and damage grow +2.5% per second survived
 
   // spitter bugs (valley floor)
@@ -2409,7 +2409,7 @@ function drawIntro(cv, kind, t) {
     drawEnemy({ type: 'bug', x: bx, y: by, dir: 1, lock: 0.9, walk: t, fade: 1 }, t, g, { noShadow: true, noAim: true });
     const sp = (t * 0.9) % 1, sx = lerp(bx, px, sp), sy = lerp(by - 14, py, sp);
     g.fillStyle = '#86a83a'; g.strokeStyle = INK; g.lineWidth = 2; g.beginPath(); g.arc(sx, sy, 7, 0, TAU); g.fill(); g.stroke();
-    if (sp > 0.85) label('−10', px + 40, py - 30, RED);
+    if (sp > 0.85) label('−8', px + 40, py - 30, RED);
     label('hanging still = easy target', 290, 26, INK2);
   } else if (kind === 'birds') {
     const cyc = t % 2.4, bx = 300 + Math.sin(t * 0.9) * 40, by = 140 + Math.sin(t * 2) * 8;
@@ -2444,7 +2444,7 @@ function drawIntro(cv, kind, t) {
       const k = Math.min(1, (cyc - 1.0) / 0.9), jx = lerp(nx, tx, k), jy = lerp(ny, ty, k) - Math.sin(k * Math.PI) * 110;
       g.strokeStyle = 'rgba(216,64,47,.6)'; g.lineWidth = 2; g.setLineDash([6, 6]); g.beginPath(); g.moveTo(nx, ny); g.quadraticCurveTo((nx + tx) / 2, (ny + ty) / 2 - 220, tx, ty); g.stroke(); g.setLineDash([]);
       g.save(); g.translate(jx, jy); g.scale(1.45, 1.45); g.translate(-jx, -jy); drawEnemy({ type: 'ninja', x: jx, y: jy, side: 1, st: 'jump', vx: 1, cd: 0, fade: 1, wallX: 70 }, t, g, { noShadow: true }); g.restore();
-      if (k > 0.9) label(fast ? 'missed!' : '−18', tx + 40, ty - 50, fast ? JADE : RED);
+      if (k > 0.9) label(fast ? 'missed!' : '−14', tx + 40, ty - 50, fast ? JADE : RED);
     }
   }
   g.setTransform(1, 0, 0, 1, 0, 0);
