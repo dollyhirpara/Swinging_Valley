@@ -19,7 +19,8 @@ One thumb, three gestures: tap a hook to grab it, tap the next hook to jump to i
 
 | Rule | Value |
 | --- | --- |
-| Vines | 4–5 per run, 150–215 apart, reshuffled every run; 3 hooks each (high, mid, low) |
+| Vines | 4–5 per run, 165–225 apart, reshuffled every run; 3 hooks each (high, mid, low) |
+| Layout | Narrow cliffs (100 wide each) and a 1080-wide valley; cliff tops sit low (y 340) so birds fly below the lowest hook line |
 | Tap a hook | Grabs it if it is 40–370 units away; each hook has an 80-unit touch area |
 | Tap the next hook | Jumps straight to it; the vine reels you in to 78% of the distance |
 | Rope length | Never shorter than 150 (unless a cliff or the floor forces it), so every grab gives a full, smooth pendulum |
@@ -61,11 +62,11 @@ Enemies arrive one stage at a time so a new player meets one idea per run; only 
 | From | Run 1 | Run 2 | Run 3 |
 | Job | Punish hanging still | Carry the coins | Punish your low point |
 | Where | Walk the valley floor; max 4 enemies in run 1, 5 in run 2, 6 from run 3 | Fly across between the cliffs; a new one every 4–7 s, max 2 | Cling to the inner cliff walls; max 2; none in a run's first 8 s |
-| Attack | Lock on faster the slower you are; a red aim line and lock-on ring, then a spit (−10) | Every 7–11 s glow 0.8 s, then puff a poison cloud that is born above the bird and shoots upward at once (no gas at bird level), drifts, and fades over 3 s (up to −14/s) | While you hang, it predicts your next low point, shows a faint "!" while watching and a red "!" 0.35 s before leaping (−18) |
+| Attack | Lock on faster the slower you are; a red aim line and lock-on ring, then a spit (−10) | Fly below the lowest hook line. Every 7–11 s glow 0.8 s, then puff a poison column that shoots up in 0.35 s from just above the lowest hook line to the top of the screen (no gas at bird level), holds 2.5 s and fades over 3 s (up to −14/s) | While you hang, it predicts your next low point, shows a faint "!" while watching and a red "!" 0.35 s before leaping (−18) |
 | Your answer | Swing above 460 and they lose you | Swing into one (above 260): 20 coins | Be above 480 when it arrives and the leap misses ("dodged!") |
 | Can be killed | No | **Yes** | No |
 
-**Catching birds.** Each golden bird pays **20 coins** (×2 in a Treasure Run). The coins burst upward and fly into the coin counter at the top. A 2nd or 3rd bird within 4 s is a combo: ×2 then ×3 (up to 60), shown as a COMBO badge. A red **ruby bird** (6% of birds; one guaranteed at 14 s in run 2) also drops a ruby. Catches never give energy, and never cost any: a catch gives 1 s of immunity to that bird's poison, so only flying into the gas at other times drains energy.
+**Catching birds.** Each golden bird pays **20 coins** (×2 in a Treasure Run). The coins burst upward and fly into the coin counter at the top. A 2nd or 3rd bird within 4 s is a combo: ×2 then ×3 (up to 60), shown as a COMBO badge. A red **ruby bird** (6% of birds; one guaranteed at 14 s in run 2) also drops a ruby. Catches never give energy, and never cost any: a catch gives 1.5 s of immunity to poison, so only flying into the gas at other times drains energy.
 
 ## Pickups, bubbles and missions
 

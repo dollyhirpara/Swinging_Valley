@@ -419,9 +419,9 @@ button.tiny:hover:not(:disabled) { color: var(--ink); transform: none; }
 const TUNING = {
   // world (logical units)
   width: 1280, height: 720,
-  cliffTop: 270, floorY: 640, leftCliffRight: 150, rightCliffLeft: 1130,
+  cliffTop: 340, floorY: 640,   /* cliffs sit lower so birds fly below the lowest hook line */ leftCliffRight: 100, rightCliffLeft: 1180,   /* narrow cliffs: a wider valley to play in on a phone */
   // vines: hang from the sky at uneven spacing (reshuffled every run); each has 3 hooks you can grab
-  vineStartX: [290, 330], vineGap: [150, 215], vineMaxX: 990,
+  vineStartX: [250, 290], vineGap: [165, 225], vineMaxX: 1040,
   hookY: [95, 170, 245], hookJitter: 8,
 
   // player and grapple
@@ -465,13 +465,13 @@ const TUNING = {
   ninjaWait: [2, 3.5], ninjaFirstWait: [1.5, 3], ninjaStartDelay: 8,
 
   // grumpy birds and poison clouds
-  birdSpeed: 55, birdY: [230, 320], birdMax: 2, birdHitRadius: 46,
+  birdSpeed: 55, birdY: [298, 352], birdMax: 2, birdHitRadius: 46,
   // GOLDEN BIRDS (from run 2) carry the coins: swing into one to knock it out and grab them
-  birdKillSpeed: 260, birdEvery: [4, 7], birdFirst: 3, rubyBirdChance: 0.06, catchPoisonSafe: 1.0,   /* a catch never costs energy: 1 s of poison immunity */
+  birdKillSpeed: 260, birdEvery: [4, 7], birdFirst: 3, rubyBirdChance: 0.06, catchPoisonSafe: 1.5,   /* a catch never costs energy: 1.5 s of poison immunity */
   poisonFirst: [4, 7], poisonEvery: [7, 11], poisonMinGap: 2.5, poisonPushTo: 3,
-  poisonWidth: 96, poisonGrow: 0.4, poisonHold: 2.5, poisonFade: 3,
-  /* the cloud is born above the bird and shoots upward at once (never at bird level), then drifts slowly */
-  poisonGap: 45, poisonRise: 80, poisonRiseRate: 5, poisonDrift: 8, poisonHeight: 150,
+  poisonWidth: 96, poisonGrow: 0.35, poisonHold: 2.5, poisonFade: 3,
+  /* the column shoots up from just above the lowest hook line to the top of the screen; birds fly below it, so no gas at bird level */
+  poisonBaseY: 262,
 
   // pickups (placed only where a swing can reach)
   boltEvery: [9, 13], boltMax: 2, boltBelow: 0.8, boltStart: 8,   /* bolts only appear once you are hurt */ boltSpeed: 70, boltGain: 12, boltY: [240, 470], boltLegTime: 3.2, boltPickRadius: 30,
@@ -694,7 +694,7 @@ const danger = () => 1 + elapsed * T.dangerPerSecond;
 
 function reset() {
   buildVines();
-  P = { x: 75, y: T.cliffTop - T.playerRadius, vx: 0, vy: 0, r: T.playerRadius, anchor: null, len: 0, targetLen: 0, grounded: true, inv: 1.0, grabT: 9, lastRing: null, ss: 0, chain: 0, lastDir: 1, grip: gripMax(), slipT: 0 };
+  P = { x: LC.x1 / 2, y: T.cliffTop - T.playerRadius, vx: 0, vy: 0, r: T.playerRadius, anchor: null, len: 0, targetLen: 0, grounded: true, inv: 1.0, grabT: 9, lastRing: null, ss: 0, chain: 0, lastDir: 1, grip: gripMax(), slipT: 0 };
   enemies = []; spits = []; poisons = []; boosters = []; treasures = []; parts = []; floaters = []; trail = []; toasts = []; ghosts = []; missionFloats = []; shocks = [];
   energy = maxEnergy(); elapsed = 0; runGold = 0; runRubies = 0; kills = 0;
   stage = Math.min(save.runs, 2); birdT = T.birdFirst; poisonSafe = 0;
@@ -905,7 +905,7 @@ function reachableSpot() {
     if (maxL < 100) continue;
     const len = rnd(100, maxL), th = rnd(-1.05, 1.05);
     const x = a.x + Math.sin(th) * len, y = a.y + Math.cos(th) * len;
-    if (x > 200 && x < 1080 && y >= T.treasureY[0] && y <= T.treasureY[1]) return { x, y };
+    if (x > LC.x1 + 50 && x < RC.x0 - 50 && y >= T.treasureY[0] && y <= T.treasureY[1]) return { x, y };
   }
   return { x: rnd(320, 960), y: rnd(250, 400) };
 }
@@ -922,7 +922,7 @@ function spawnEnemy(force) {
   }
   if (type === 'ruby' || type === 'bird-plain') { force = type; type = 'bird'; }
   const left = Math.random() < 0.5, life = rr(T.lifetimes[type]);
-  if (type === 'bug') enemies.push({ type, x: left ? 165 : 1115, y: FLOOR - 12, dir: left ? 1 : -1, life, lock: 0, cd: T.bugFirstCooldown, fade: 1, walk: 0 });
+  if (type === 'bug') enemies.push({ type, x: left ? LC.x1 + 15 : RC.x0 - 15, y: FLOOR - 12, dir: left ? 1 : -1, life, lock: 0, cd: T.bugFirstCooldown, fade: 1, walk: 0 });
   else if (type === 'ninja') {
     const wallX = left ? LC.x1 + 12 : RC.x0 - 12, homeY = rr(T.ninjaRestY);
     enemies.push({ type, side: left ? 1 : -1, wallX, homeY, x: wallX, y: homeY, st: 'cling', cd: rr(T.ninjaFirstWait), scan: 0, t: 0, vx: 0, vy: 0, life, fade: 1 });
@@ -1000,7 +1000,7 @@ function update(dt) {
     tel.falls++;
     P.inv = Math.max(P.inv, keep, T.fallInvuln);
     const left = P.x < W / 2;
-    P.x = left ? 75 : W - 75; P.y = T.cliffTop - P.r; P.vx = P.vy = 0; P.anchor = null; P.grounded = true; P.chain = 0; P.lastRing = null; P.grip = gripMax();
+    P.x = left ? LC.x1 / 2 : (RC.x0 + W) / 2; P.y = T.cliffTop - P.r; P.vx = P.vy = 0; P.anchor = null; P.grounded = true; P.chain = 0; P.lastRing = null; P.grip = gripMax();
     respawnFx(P.x, P.y);
     burst(P.x, P.y, '#ffffff', 10, 200);
   }
@@ -1029,8 +1029,8 @@ function update(dt) {
     const active = e.life > 0;
     if (e.type === 'bug') {
       e.x += e.dir * T.bugSpeed * dt; e.walk += dt;
-      if (e.x < 170) { e.x = 170; e.dir = 1; }
-      if (e.x > 1110) { e.x = 1110; e.dir = -1; }
+      if (e.x < LC.x1 + 20) { e.x = LC.x1 + 20; e.dir = 1; }
+      if (e.x > RC.x0 - 20) { e.x = RC.x0 - 20; e.dir = -1; }
       e.cd -= dt;
       const d = dist(e.x, e.y, P.x, P.y);
       const tracking = active && !invisible && d < T.bugRange && P.ss < T.bugLoseSpeed;
@@ -1047,12 +1047,12 @@ function update(dt) {
     else if (e.type === 'bird') {
       e.phase += dt * 3;
       e.x += e.dir * T.birdSpeed * dt;
-      if (e.x > 1060 && e.dir > 0 && e.x < W) e.dir = -1;
-      if (e.x < 220 && e.dir < 0 && e.x > 0) e.dir = 1;
+      if (e.x > RC.x0 - 70 && e.dir > 0 && e.x < W) e.dir = -1;
+      if (e.x < LC.x1 + 70 && e.dir < 0 && e.x > 0) e.dir = 1;
       e.y += Math.sin(e.phase) * 18 * dt;
       e.timer -= dt;
-      if (active && e.timer <= 0 && e.x > 170 && e.x < 1110) {
-        const puffs = []; for (let i = 0; i < 9; i++) puffs.push({ dx: rnd(-0.35, 0.35), f: i / 8, r: rnd(26, 40), ph: rnd(0, 6) });
+      if (active && e.timer <= 0 && e.x > LC.x1 + 20 && e.x < RC.x0 - 20) {
+        const puffs = []; for (let i = 0; i < 12; i++) puffs.push({ dx: rnd(-0.3, 0.3), f: i / 11, r: rnd(28, 40), ph: rnd(0, 6) });
         poisons.push({ x: e.x, y: e.y, w: T.poisonWidth, t: 0, puffs });
         e.timer = rr(T.poisonEvery);
         const other = enemies.find(o => o !== e && o.type === 'bird' && !o.dead);
@@ -1093,8 +1093,8 @@ function update(dt) {
   const defended = (bubble && bubble.type === 'defense') || poisonSafe > 0;
   for (const p of poisons) {
     p.t += dt;
-    p.base = p.y - T.poisonGap - T.poisonRise * (1 - Math.exp(-p.t * T.poisonRiseRate)) - T.poisonDrift * p.t;
-    p.top = p.base - T.poisonHeight * Math.min(1, p.t / T.poisonGrow);
+    p.base = Math.min(T.poisonBaseY, p.y - 30);
+    p.top = p.base - (p.base + 20) * Math.min(1, p.t / T.poisonGrow);
     p.k = p.t < T.poisonGrow + T.poisonHold ? 1 : Math.max(0, 1 - (p.t - T.poisonGrow - T.poisonHold) / T.poisonFade);
     if (p.k > 0.05 && !defended && Math.abs(P.x - p.x) < p.w / 2 && P.y > p.top && P.y < p.base) {
       const dmg = T.poisonDps * p.k * danger() * dt;
@@ -1110,7 +1110,7 @@ function update(dt) {
   boostT -= dt;
   if (boostT <= 0 && boosters.length < T.boltMax && elapsed > T.boltStart && energy < maxEnergy() * T.boltBelow) {
     const left = Math.random() < 0.5;
-    boosters.push({ x: left ? 160 : 1120, dir: left ? 1 : -1, t: rnd(0, T.boltLegTime), y: 300 });
+    boosters.push({ x: left ? LC.x1 + 10 : RC.x0 - 10, dir: left ? 1 : -1, t: rnd(0, T.boltLegTime), y: 300 });
     boostT = rr(T.boltEvery);
   }
   for (const b of boosters) {
@@ -1124,7 +1124,7 @@ function update(dt) {
       floatText(b.x, b.y - 24, '+' + T.boltGain + ' energy', '#8fe3b0', 26); burst(b.x, b.y, '#8fe3b0', 14, 240); healFx(b.x, b.y, T.boltGain);
       missionEv('bolts', tel.bolts);
     }
-    if (b.x < 150 || b.x > 1130) b.gone = true;
+    if (b.x < LC.x1 || b.x > RC.x0) b.gone = true;
   }
   boosters = boosters.filter(b => !b.gone);
 
@@ -1162,7 +1162,7 @@ function updateNinja(e, dt, active, invisible) {
       if (sp > T.fastSpeed) { if (!e.hit) { e.hit = true; tel.ninjaDodges = (tel.ninjaDodges || 0) + 1; floatText(P.x, P.y - 28, 'dodged!', '#8fe3b0', 16); } }
       if (!e.hit) { e.hit = true; hurt(T.ninjaDamage, 'ninja', 'ninja'); }
     }
-    if (e.y >= FLOOR - 14) { e.y = FLOOR - 14; e.x = clamp(e.x, 165, 1115); e.st = 'return'; e.hit = false; }
+    if (e.y >= FLOOR - 14) { e.y = FLOOR - 14; e.x = clamp(e.x, LC.x1 + 15, RC.x0 - 15); e.st = 'return'; e.hit = false; }
   } else if (e.st === 'return') {
     const toWall = e.wallX - e.x;
     if (Math.abs(toWall) > 4) e.x += Math.sign(toWall) * Math.min(Math.abs(toWall), T.ninjaRunSpeed * dt);
@@ -1503,10 +1503,10 @@ function draw(now) {
     if (p.base === undefined) continue;
     const grow = Math.min(1, p.t / T.poisonGrow), span = Math.max(1, p.base - p.top);
     for (const f of p.puffs) {
-      const r = f.r * (0.7 + 0.3 * grow) * (1 + (1 - p.k) * 0.4) * 1.05;
+      const r = f.r * (0.7 + 0.3 * grow) * (1 + (1 - p.k) * 0.4) * 1.25;
       const py = p.base - r * 0.55 - Math.max(0, span - r * 0.55) * f.f - Math.sin(time * 1.3 + f.ph) * 4;
       const px = p.x + f.dx * p.w + Math.sin(time * 1.1 + f.ph) * 10;
-      ctx.globalAlpha = 0.85 * p.k; ctx.drawImage(puffSprite, px - r, py - r, r * 2, r * 2);
+      ctx.globalAlpha = Math.min(1, 1.1 * p.k); ctx.drawImage(puffSprite, px - r, py - r, r * 2, r * 2);
     }
     ctx.globalAlpha = 1;
   }
@@ -2188,7 +2188,7 @@ function doRevive() {
   }
   revivesUsed++; persist();
   energy = T.reviveEnergy; P.inv = T.reviveInvuln;
-  if (P.y > T.cliffTop + 120 && !P.grounded) { const left = P.x < W / 2; P.x = left ? 75 : W - 75; P.y = T.cliffTop - P.r; P.vx = P.vy = 0; P.grounded = true; P.grip = gripMax(); }
+  if (P.y > T.cliffTop + 120 && !P.grounded) { const left = P.x < W / 2; P.x = left ? LC.x1 / 2 : (RC.x0 + W) / 2; P.y = T.cliffTop - P.r; P.vx = P.vy = 0; P.grounded = true; P.grip = gripMax(); }
   $('reviveScreen').hidden = true; reviveTimer = null; state = 'play';
   burst(P.x, P.y, '#f2c14e', 24, 300); floatText(P.x, P.y - 40, 'Revived!', '#f2c14e', 28); respawnFx(P.x, P.y);
   shocks.push({ x: P.x, y: P.y, t: 0, max: 0.5, color: '242,193,78', r0: 16, r1: 110 });
@@ -2424,7 +2424,7 @@ function drawIntro(cv, kind, t) {
   } else if (kind === 'poison') {
     const bx = 290, by = 236;
     g.globalCompositeOperation = 'multiply';
-    for (let i = 0; i < 9; i++) { const f = i / 8, py = by - 80 - f * 150 - Math.sin(t * 1.3 + i) * 5, px = bx + Math.sin(t * 1.1 + i * 2) * 14, r = 44 + (i % 3) * 8; g.globalAlpha = 0.8; g.drawImage(puffSprite, px - r, py - r, r * 2, r * 2); }
+    for (let i = 0; i < 11; i++) { const f = i / 10, py = by - 70 - f * (by - 60) - Math.sin(t * 1.3 + i) * 5, px = bx + Math.sin(t * 1.1 + i * 2) * 14, r = 44 + (i % 3) * 8; g.globalAlpha = 0.8; g.drawImage(puffSprite, px - r, py - r, r * 2, r * 2); }
     g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
     drawEnemy({ type: 'bird', x: bx, y: by, dir: -1, fade: 1, phase: t * 3, timer: 0.4, life: 9, ruby: false }, t, g, { noShadow: true });
     const px = 300 + Math.sin(t * 0.7) * 30, py = 120; drawHook(g, px, 30, 2, t); rope(px, 30, px, py); drawCharacter(g, px, py, 18, { dir: 1 });
