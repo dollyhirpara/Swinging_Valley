@@ -53,6 +53,8 @@ canvas { display: block; width: 100%; height: 100%; cursor: crosshair; }
 .pauseBtn i { display: block; width: 14%; height: 42%; background: var(--ink); border-radius: 2px; }
 .pauseBtn:active:not(:disabled) { transform: translateY(2px); box-shadow: none; }
 #pauseScreen { z-index: 6; }
+.toggleBtn { min-width: 9.5em; }
+.toggleBtn[aria-pressed="false"] { color: var(--muted); border-style: dashed; text-decoration: line-through; text-decoration-color: rgba(30,26,23,.4); }
 #introScreen { z-index: 6; }
 .dialog.intro { width: min(900px, 96%); gap: 1.6cqh; padding: 3cqh 3cqw; }
 .introCards { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4cqw; text-align: left; }
@@ -261,6 +263,7 @@ button.tiny:hover:not(:disabled) { color: var(--ink); transform: none; }
       <span class="tag" style="justify-self:center">Paused</span>
       <h2>Take a breath</h2>
       <div class="row" style="justify-content:center;gap:4cqw"><div><span class="tag" style="justify-content:center">This run</span><div class="count" id="pauseTime" style="font-size:clamp(20px,6cqh,48px)">0s</div></div><div><span class="tag" style="justify-content:center">Best</span><div class="count" id="pauseBest" style="font-size:clamp(20px,6cqh,48px)">—</div></div></div>
+      <div class="row" style="justify-content:center"><button id="pauseSound" class="ghost small toggleBtn" aria-pressed="true">Sound: On</button><button id="pauseVib" class="ghost small toggleBtn" aria-pressed="true">Vibration: On</button></div>
       <div class="row" style="justify-content:center"><button id="resumeBtn" class="grow">Resume</button><button id="quitRunBtn" class="ghost small">End run</button></div>
       <small style="color:var(--muted)">Press P or Esc to pause on desktop. The game also pauses when you leave the tab.</small>
     </div>
@@ -425,11 +428,11 @@ const TUNING = {
   hookY: [95, 170, 245], hookJitter: 8,
 
   // player and grapple
-  playerRadius: 18, gravity: 1400,   // bigger hero: easier to read on a phone
+  playerRadius: 21, gravity: 1400,   // bigger hero: easier to read on a phone
   ropeMin: 60, ropeMax: 370, ringMinDist: 40, ropeSnap: 0.92,
   swingMinLen: 150,         // a grabbed rope is never shorter than this (unless a cliff or the floor forces it): short ropes made tiny, twitchy swings
   // TAP CONTROLS (mobile playtest): tap a hook to grab it, tap the next hook before your grip runs out, tap empty sky to let go
-  tapRadius: 80,            // a tap this close to a hook grabs it: a big touch target, so a thumb never has to be precise
+  tapRadius: 90,            // a tap this close to a hook grabs it: a big touch target, so a thumb never has to be precise
   tapPull: 0.78,            // after a tap-grab the vine reels you in to this share of the distance: you 'jump' toward the hook
   attachMaxFall: 300,       // catching a hook softens a steep drop to this downward speed (no sudden plunge when switching)
   maxFallSpeed: 640,        // terminal speed while falling free
@@ -456,12 +459,12 @@ const TUNING = {
   bugSpeed: 60, bugRange: 680, bugLockRate: 0.85, bugLockDecay: 0.5,
   bugCooldown: 1.4, bugFirstCooldown: 1.5,
   bugLoseSpeed: 460, bugLoseDecay: 1.2, bugLineMin: 0.15,   // faster than this (mint glow) the bugs lose track of you
-  spitSpeed: 680, spitHitRadius: 18, spitLife: 2, spitDodgeRadius: 60,
+  spitSpeed: 680, spitHitRadius: 21, spitLife: 2, spitDodgeRadius: 60,
 
   // ninja
   ninjaRestY: [430, 590], ninjaReachY: [40, 460], ninjaReachX: 600,
   ninjaCrouch: 0.35, ninjaCrouchSlack: 0.22, ninjaScanEvery: 0.05, ninjaPredictTime: 1.6,
-  ninjaHitRadius: 36, ninjaRunSpeed: 320, ninjaClimbSpeed: 260,
+  ninjaHitRadius: 42, ninjaRunSpeed: 320, ninjaClimbSpeed: 260,
   ninjaWait: [2, 3.5], ninjaFirstWait: [1.5, 3], ninjaStartDelay: 8,
 
   // grumpy birds and poison clouds
@@ -922,9 +925,9 @@ function spawnEnemy(force) {
   }
   if (type === 'ruby' || type === 'bird-plain') { force = type; type = 'bird'; }
   const left = Math.random() < 0.5, life = rr(T.lifetimes[type]);
-  if (type === 'bug') enemies.push({ type, x: left ? LC.x1 + 15 : RC.x0 - 15, y: FLOOR - 12, dir: left ? 1 : -1, life, lock: 0, cd: T.bugFirstCooldown, fade: 1, walk: 0 });
+  if (type === 'bug') enemies.push({ type, x: left ? LC.x1 + 15 : RC.x0 - 15, y: FLOOR - 17, dir: left ? 1 : -1, life, lock: 0, cd: T.bugFirstCooldown, fade: 1, walk: 0 });
   else if (type === 'ninja') {
-    const wallX = left ? LC.x1 + 12 : RC.x0 - 12, homeY = rr(T.ninjaRestY);
+    const wallX = left ? LC.x1 + 16 : RC.x0 - 16, homeY = rr(T.ninjaRestY);
     enemies.push({ type, side: left ? 1 : -1, wallX, homeY, x: wallX, y: homeY, st: 'cling', cd: rr(T.ninjaFirstWait), scan: 0, t: 0, vx: 0, vy: 0, life, fade: 1 });
   } else {
     const other = enemies.find(e => e.type === 'bird');
@@ -1430,7 +1433,7 @@ function drawVine(g, v, time, highlight) {
 }
 function drawHook(g, hx, hy, st, time) {
   // st: 0 out of reach (grey ink), 1 in reach (vermilion + wash), 3 in reach while attached elsewhere, 2 attached (gold)
-  const R = 14.5;
+  const R = 17;
   if (st === 0) g.globalAlpha = 0.45;
   if (st === 1) { drawGlow(g, hx, hy, 36 + Math.sin(time * 5 + hy) * 3, '216,64,47', 0.35); g.strokeStyle = `rgba(216,64,47,${0.35 + 0.25 * Math.sin(time * 5 + hy)})`; g.lineWidth = 1.5; g.setLineDash([3, 4]); g.beginPath(); g.arc(hx, hy, R + 7, time * 0.8, time * 0.8 + TAU); g.stroke(); g.setLineDash([]); }
   if (st === 2) drawGlow(g, hx, hy, 28, '201,154,58', 0.5);
@@ -1651,7 +1654,7 @@ function drawEnemy(e, time, g = ctx, opts = {}) {
       g.beginPath(); g.moveTo(e.x, e.y - 12); g.lineTo(P.x, P.y); g.stroke(); g.setLineDash([]);
       if (L > 0.45) { const rr2 = 40 - L * 12, a0 = time * 3; g.strokeStyle = `rgba(216,64,47,${L})`; g.lineWidth = 3; for (let i = 0; i < 4; i++) { g.beginPath(); g.arc(P.x, P.y, rr2, a0 + i * Math.PI / 2, a0 + i * Math.PI / 2 + 0.7); g.stroke(); } }
     }
-    g.translate(e.x, e.y); g.scale(e.dir * 1.2, 1.2);
+    g.translate(e.x, e.y); g.scale(e.dir * 1.45, 1.45);
     const step = Math.sin(e.walk * 14);
     g.strokeStyle = INK; g.lineWidth = 2.2; g.lineCap = 'round';
     for (let i = -1; i <= 1; i++) { g.beginPath(); g.moveTo(i * 7, 2); g.quadraticCurveTo(i * 9, 6, i * 10 + step * (i === 0 ? -3 : 3), 12); g.stroke(); }
@@ -1675,12 +1678,12 @@ function drawEnemy(e, time, g = ctx, opts = {}) {
     const watching = e.st === 'cling' && e.cd <= 0.6 && P && P.anchor && state === 'play';
     if (crouch || watching) {
       const a = crouch ? 1 : 0.35, bob = Math.sin(time * 10) * 2;
-      g.save(); g.globalAlpha = fade * a; g.fillStyle = crouch ? RED : INK2; g.beginPath(); g.arc(0, -46 + bob, 11, 0, TAU); g.fill();
-      g.fillStyle = '#fbf6ec'; g.font = fD(16); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('!', 0, -45 + bob); g.restore();
+      g.save(); g.globalAlpha = fade * a; g.fillStyle = crouch ? RED : INK2; g.beginPath(); g.arc(0, -54 + bob, 12, 0, TAU); g.fill();
+      g.fillStyle = '#fbf6ec'; g.font = fD(16); g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('!', 0, -53 + bob); g.restore();
     }
     if (crouch) { g.strokeStyle = 'rgba(216,64,47,.7)'; g.lineWidth = 2; g.beginPath(); g.arc(0, 0, 30 + Math.sin(elapsed * 30) * 2, 0, TAU); g.stroke(); }
     const face = e.st === 'cling' ? e.side : (e.vx || e.side) > 0 ? 1 : -1;
-    g.scale(face * 1.4, sq * 1.4);
+    g.scale(face * 1.6, sq * 1.6);
     const tw = Math.sin(time * 10 + (e.wallX || 0)) * 3;
     g.strokeStyle = RED; g.lineWidth = 3; g.lineCap = 'round';
     g.beginPath(); g.moveTo(-8, -9); g.quadraticCurveTo(-16, -12 + tw, -22, -6 + tw); g.moveTo(-8, -8); g.quadraticCurveTo(-15, -6 - tw, -21, -1 - tw); g.stroke();
@@ -2077,7 +2080,8 @@ const SFX = {
   start: () => { tone(330, 660, 0.25, 'triangle', 0.11); noise(0.3, 0.05, 700, 0.8, 'bandpass', 0, 3000); },
 };
 function sfx(name, v) { if (muted || !AC) return; try { SFX[name] && SFX[name](v); } catch (e) {} }
-function vib(ms) { try { if (!muted && navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+let vibOn = true; try { vibOn = localStorage.getItem('sv_vib') !== '0'; } catch (e) {}
+function vib(ms) { try { if (vibOn && navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
 // koto-style plucks on a D "in" pentatonic scale, with a slow bass drone; a touch quicker during a run
 const SCALE = [293.7, 311.1, 392, 440, 466.2, 587.3, 622.3, 784, 880];
 const PHRASE = [4, 3, 2, 3, 5, 4, 2, 0, 1, 2, 4, 6, 5, 3, 4, -1, 7, 5, 4, 3, 2, 3, 1, 0, 2, 4, 3, -1, 2, 1, 0, -1];
@@ -2627,10 +2631,17 @@ scheduleNotification();
 function setPaused(on) {
   if (state !== 'play') on = false;
   paused = on; $('pauseScreen').hidden = !on;
+  if (on) refreshPauseToggles();
   if (on) { $('pauseBest').textContent = save.best > 0 ? save.best.toFixed(1) + 's' : '—'; $('pauseTime').textContent = elapsed.toFixed(1) + 's'; }
 }
 $('pauseBtn').addEventListener('click', ev => { ev.stopPropagation(); setPaused(true); });
 $('resumeBtn').addEventListener('click', () => setPaused(false));
+function refreshPauseToggles() {
+  $('pauseSound').textContent = 'Sound: ' + (muted ? 'Off' : 'On'); $('pauseSound').setAttribute('aria-pressed', String(!muted));
+  $('pauseVib').textContent = 'Vibration: ' + (vibOn ? 'On' : 'Off'); $('pauseVib').setAttribute('aria-pressed', String(vibOn));
+}
+$('pauseSound').addEventListener('click', () => { setMuted(!muted); refreshPauseToggles(); });
+$('pauseVib').addEventListener('click', () => { vibOn = !vibOn; try { localStorage.setItem('sv_vib', vibOn ? '1' : '0'); } catch (e) {} if (vibOn) vib(30); refreshPauseToggles(); });
 $('quitRunBtn').addEventListener('click', () => { setPaused(false); endRun(); });
 document.addEventListener('visibilitychange', () => { if (document.hidden && state === 'play') setPaused(true); });
 window.addEventListener('blur', () => { if (state === 'play') setPaused(true); });

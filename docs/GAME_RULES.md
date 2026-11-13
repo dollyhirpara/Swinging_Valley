@@ -21,7 +21,7 @@ One thumb, three gestures: tap a hook to grab it, tap the next hook to jump to i
 | --- | --- |
 | Vines | 4–5 per run, 165–225 apart, reshuffled every run; 3 hooks each (high, mid, low) |
 | Layout | Narrow cliffs (100 wide each) and a 1080-wide valley; cliff tops sit low (y 340) so birds fly below the lowest hook line |
-| Tap a hook | Grabs it if it is 40–370 units away; each hook has an 80-unit touch area |
+| Tap a hook | Grabs it if it is 40–370 units away; each hook has a 90-unit touch area |
 | Tap the next hook | Jumps straight to it; the vine reels you in to 78% of the distance |
 | Rope length | Never shorter than 150 (unless a cliff or the floor forces it), so every grab gives a full, smooth pendulum |
 | Tap empty sky | Let go and fly; a slow release (under 340) is thrown forward at 420 |
@@ -35,7 +35,7 @@ One thumb, three gestures: tap a hook to grab it, tap the next hook to jump to i
 
 **Speed states.** Under 160 while hanging you are an easy target. Above 260 you can catch a golden bird by touching it. Above 460 bugs lose track of you. Above 480 the hero glows mint and ninja leaps miss.
 
-**Hero size.** The hero has a radius of 18 (was 14), so it reads clearly on a phone.
+**Sizes for phones.** The hero has a radius of 21 (was 14); bugs, ninjas and hooks are drawn bigger too (golden birds keep their size), with hit and touch areas to match (hooks: 90-unit touch area).
 
 ## Energy and danger
 

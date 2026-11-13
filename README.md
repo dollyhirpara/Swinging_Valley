@@ -10,7 +10,7 @@ Lila Games · Game Designer Test · Part 1 · Question 1.
 
 ## How to play
 - **Tap a hook** to grab it and swing. Each vine has **3 hooks**, so you choose the height. **Tap the next hook** to jump to it before your grip runs out, or tap empty sky to let go and fly. Vine spacing changes every run.
-- Hooks have a big touch area (80 units), so a thumb never has to be precise, and it never covers the screen.
+- Hooks have a big touch area (90 units), so a thumb never has to be precise, and it never covers the screen.
 - Your **grip** lasts 4 s per hook (7 s with Grip Gloves). The ring around you drains jade → gold → red; in the last 1.6 s you see a countdown. With gloves, staying on one vine builds your swing, up to a cap.
 - **Energy is your health:** hits, falls and poison take it (the hit shows as a big number over the hero and a red chip on the energy bar); energy bolts appear once you are hurt and give it back. No drain for hanging or swinging, but the valley gets more dangerous the longer you last.
 - **The top bar:** energy on the left, run time and coins from this run in the middle, golden birds caught on the right, and a pause button.
