@@ -12,11 +12,14 @@ Lila Games · Game Designer Test · Part 1 · Question 1.
 - **Tap a hook** to grab it and swing. Each vine has **3 hooks**, so you choose the height. **Tap the next hook** to jump to it before your grip runs out, or tap empty sky to let go and fly. Vine spacing changes every run.
 - Hooks have a big touch area (80 units), so a thumb never has to be precise, and it never covers the screen.
 - Your **grip** lasts 4 s per hook (7 s with Grip Gloves). The ring around you drains jade → gold → red; in the last 1.6 s you see a countdown. With gloves, staying on one vine builds your swing, up to a cap.
-- **Energy is your health:** hits, falls and poison take it; energy bolts give it back. There is no drain for hanging or swinging, but the valley gets more dangerous the longer you last.
-- **Spitter bugs** aim when you are slow; at mint speed they lose track of you. **Ninjas** leap at the bottom of your swing; be swinging fast and they miss. **Grumpy birds** puff poison clouds, and they are the only enemy you can kill: fly through one fast to knock it out.
-- **Bird hunting:** each bird knocked out pays **15 coins** (no energy). A 2nd or 3rd within 4 s pays ×2 / ×3 (up to 45). Missions: knock out 2 birds today, 5 in one run, 2 in one combo.
-- Nearby coins, rubies and bolts drift into your hands. Bubbles (DEF, INV) and the glove button sit at the bottom centre.
-- Desktop: click hooks, or `Space` to grab the hook ahead / let go. `G` wears a glove; `1` and `2` trigger the bubbles. `M` (or the 🔊 button on the home screen) turns sound on or off.
+- **Energy is your health:** hits, falls and poison take it (the hit shows as a big number over the hero and a red chip on the energy bar); energy bolts appear once you are hurt and give it back. No drain for hanging or swinging, but the valley gets more dangerous the longer you last.
+- **The top bar:** energy on the left, run time and coins from this run in the middle, golden birds caught on the right, and a pause button.
+- **Enemies arrive one stage at a time,** each introduced by one short screen before the run:
+  - **Run 1, shooter bugs:** they fire from the valley floor when you hang still; swing fast and they lose you (−10).
+  - **Run 2, golden birds:** they carry the coins. Swing into one to catch it: **20 coins**, and a 2nd or 3rd within 4 s pays ×2 / ×3. A rare red ruby bird also drops a ruby. Their green poison air still drains energy. Bird kills never give energy.
+  - **Run 3, ninjas:** bigger and harder-hitting (−18). A faint "!" while one watches you, a red "!" just before it leaps; be swinging fast and it misses. DEF and INV bubbles unlock here.
+- There are no free coin pickups: coins come from golden birds and missions.
+- Desktop: click hooks, or `Space` to grab the hook ahead / let go. `G` wears a glove; `1` and `2` trigger the bubbles; `P` or `Esc` pauses. `M` (or the 🔊 button on the home screen) turns sound on or off. The game also pauses when you leave the tab.
 
 ## The day-1 hook: Grip Gloves
 1. **End of run 1 (day 0):** "Slipping off hooks? Get a better grip." The screen shows your slips, a 4 s vs 7 s demo, the time the gloves arrive (next 08:00) with a live countdown, and the notification you will get.
@@ -27,10 +30,10 @@ Lila Games · Game Designer Test · Part 1 · Question 1.
 ## Economy (all purchases are simulated in this prototype)
 | | Earn | Spend |
 |---|---|---|
-| **Coins** (soft) | Treasure, bird knockouts (15 × combo, up to 45), missions, 2× Treasure Run, optional ad "double coins" | Max energy, bubble limit, skins, new valleys (full game), 1st revive |
-| **Rubies** (hard, rare) | About 1 every 3–4 runs, 2 per daily mission, ad chest, IAP | Grip Gloves (10), 2nd revive (5), 3rd revive (15), extra Treasure Run (5), trails |
+| **Coins** (soft) | Golden birds (20 × combo, up to 60), missions, 2× Treasure Run, optional ad "double coins" | Max energy, bubble limit, skins, new valleys (full game), 1st revive |
+| **Rubies** (hard, rare) | Ruby birds (6% of birds; one guaranteed in run 2), 2 per daily mission, ad chest, IAP | Grip Gloves (10), 2nd revive (5), 3rd revive (15), extra Treasure Run (5), trails |
 
-- **Revives:** 100 coins, then 5 rubies, then 15 rubies. There is no 4th.
+- **Revives:** 100 coins, then 5 rubies, then 15 rubies. There is no 4th. The revive screen shows how many coins or rubies you have.
 - **Store:** Starter Pack ₹49 (one time), ruby packs ₹29–₹999, glove packs, Glove Club ₹149/month, cosmetic trails. The Valley Pass (₹199/season) is shown but belongs to the full game.
 - **Fair-play rules:** no offers on day 0, never an offer mid-run, at most one smart offer per session, everything can be earned without paying, no lives or energy timers.
 

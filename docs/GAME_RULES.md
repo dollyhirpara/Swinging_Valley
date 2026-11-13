@@ -6,7 +6,7 @@ Updated 12 Nov 2026 · every number below is the live value in the prototype's `
 
 Swinging Valley is a one-thumb endless swinger: tap a hook to swing, tap the next before your 4-second grip slips, and survive as long as you can. Its core tension is **hang and you get shot, swing fast and you stay hidden**. The day-1 hook is **Grip Gloves**: they unlock after run 1, arrive at 08:00 the next day, and stretch grip from 4 s to 7 s.
 
-Each enemy has one job: **outrun the bugs, dodge the ninjas, hunt the birds**. Birds are the only enemy you can kill; kills pay coins and missions, never energy. Money follows fair-play rules: no offers on day 0, never mid-run, at most one smart offer per session.
+Enemies arrive one stage at a time: **shooter bugs in run 1, golden birds in run 2, ninjas in run 3**, each introduced by one short screen. Golden birds are the only enemy you can catch, and they carry the coins; catches pay coins and missions, never energy. Money follows fair-play rules: no offers on day 0, never mid-run, at most one smart offer per session.
 
 | Item | Link |
 | --- | --- |
@@ -31,7 +31,9 @@ One thumb, three gestures: tap a hook to grab it, tap the next hook to jump to i
 
 **Grip.** You hold one hook for 4 s (7 s with Grip Gloves). A new hook or a cliff landing resets it; re-grabbing the same hook does not. The ring around the hero drains jade → gold → red, and the hook shows the same ring. In the last 1.6 s a countdown, sweat drops, a shaking hand and a red rope warn you. At zero you slip and cannot grab for 0.3 s.
 
-**Speed states.** Under 160 while hanging you are an easy target. Above 460 bugs lose track of you. Above 480 the hero glows mint: birds can be knocked out and ninja leaps miss.
+**Speed states.** Under 160 while hanging you are an easy target. Above 260 you can catch a golden bird by touching it. Above 460 bugs lose track of you. Above 480 the hero glows mint and ninja leaps miss.
+
+**Hero size.** The hero has a radius of 18 (was 14), so it reads clearly on a phone.
 
 ## Energy and danger
 
@@ -41,52 +43,43 @@ Energy is health, not a timer: hanging, swinging and standing cost nothing. The 
 | --- | --- |
 | Start | 100 energy (+10 per Max-energy upgrade) |
 | Bug spit | −10, then 0.6 s invulnerable |
-| Ninja leap | −12, once per leap |
+| Ninja leap | −18, once per leap |
 | Fall to the valley floor | −15, respawn on the nearer cliff, 1 s safe |
 | Poison cloud | up to −14 per second while inside, scaling down as the cloud fades |
-| Energy bolt | +12; one every 9–13 s, max 2 on screen, zigzag between the cliffs |
-| Bird knockout | no energy (coins and missions only) |
+| Energy bolt | +12; only once you are below 80% energy and past 8 s, one every 9–13 s, max 2, flies into the energy bar |
+| Golden bird catch | no energy (coins and missions only) |
 
-**Danger ramp.** Bug aim speed and all enemy damage grow by 2.5% for every second survived. The enemy cap starts at 3 and rises by 1 every 15 s up to 8; at least 2 enemies are always present. Spawns come every 2.2–4.2 s, shrinking to 45% of that by 120 s. Low energy (under 30%) pulses a red screen edge.
+**Danger ramp.** Bug aim speed and all enemy damage grow by 2.5% for every second survived. The enemy cap starts at 3 and rises by 1 every 15 s up to 8; at least 2 enemies are always present. Spawns come every 2.2–4.2 s, shrinking to 45% of that by 120 s. Low energy (under 30%) pulses a red screen edge and plays a heartbeat. Every hit shows a big number over the hero, a red chip on the energy bar, a red flash on the hero and a shake of the bar.
 
 ## Enemies and kills
 
-Each enemy punishes one habit, and only birds can be killed: outrun the bugs, dodge the ninjas, hunt the birds.
+Enemies arrive one stage at a time so a new player meets one idea per run; only golden birds can be caught.
 
-| | Spitter bugs | Ninjas | Grumpy birds |
+| | Shooter bugs | Golden birds | Ninjas |
 | --- | --- | --- | --- |
-| Punishes | Slowing down | Your low point | Lazy routes |
-| Where | Walk the valley floor at 60/s | Cling to the inner cliff walls; none in the first 8 s | Patrol between the cliffs at 55/s, at the height of the cliff tops; max 2 |
-| Attack | Lock on faster the slower you are; a red aim line and lock-on ring, then a spit at 680 (−10) | While you hang on a vine, it simulates your swing to find your next low point, flashes red 0.35 s, then leaps to meet you there (−12) | Every 4–7 s glows 0.8 s, then releases a poison column (96 wide) that rises to the sky, holds 2.5 s and fades over 3 s; two birds never puff within 1.8 s |
-| Your answer | Swing above 460 and they lose track | Be above 480 when it reaches you and the leap misses ("dodged!") | Fly through it above 480 to knock it out |
-| Can be killed | No | No | **Yes** |
-| Stays | 15–25 s | 14–22 s; after a leap it lands, runs back, climbs and waits 2–3.5 s | 14–22 s |
+| From | Run 1 | Run 2 | Run 3 |
+| Job | Punish hanging still | Carry the coins | Punish your low point |
+| Where | Walk the valley floor; max 4 enemies in run 1, 5 in run 2, 6 from run 3 | Fly across between the cliffs; a new one every 4–7 s, max 2 | Cling to the inner cliff walls; max 2; none in a run's first 8 s |
+| Attack | Lock on faster the slower you are; a red aim line and lock-on ring, then a spit (−10) | Every 4–7 s glow 0.8 s, then release a poison column that rises, holds 2.5 s and fades over 3 s (up to −14/s) | While you hang, it predicts your next low point, shows a faint "!" while watching and a red "!" 0.35 s before leaping (−18) |
+| Your answer | Swing above 460 and they lose you | Swing into one (above 260): 20 coins | Be above 480 when it arrives and the leap misses ("dodged!") |
+| Can be killed | No | **Yes** | No |
 
-Spawn mix: 42% bugs, 30% ninjas, 28% birds (a bird becomes a bug when 2 birds are already out).
-
-**Bird kills.** Each knockout pays **15 coins** (×2 in a Treasure Run), with a freeze-frame, screen shake and the bird floating away as a ghost. A 2nd or 3rd bird within 4 s is a combo: ×2 then ×3 (up to 45 coins), shown as a COMBO badge under the timer. Kills never give energy, so survival stays a skill, not a farm. Bird missions: knock out 2 birds today, 5 in one run, 2 in one combo.
+**Catching birds.** Each golden bird pays **20 coins** (×2 in a Treasure Run). The coins burst upward and fly into the coin counter at the top. A 2nd or 3rd bird within 4 s is a combo: ×2 then ×3 (up to 60), shown as a COMBO badge. A red **ruby bird** (6% of birds; one guaranteed at 14 s in run 2) also drops a ruby. Catches never give energy.
 
 ## Pickups, bubbles and missions
 
-Treasure is always placed where a swing can reach it, and anything within 85 units drifts into your hands.
+There are no free coin pickups: coins come from golden birds and missions. Energy bolts drift into your hands from 85 units away.
 
-| Pickup | Rule |
-| --- | --- |
-| Coins | 10 (lasts 9 s, 55% of spawns), 25 (6 s, 33%), 60 (3.5 s, 12%); one every 2.2–3.8 s, max 3; 12% appear on a cliff top as a 10 |
-| Rubies | 1.5% of spawns (about 1 every 3–4 runs), last 4 s; run 2 always shows one at 14 s |
-| Energy bolts | +12 energy (see Energy and danger) |
-| Treasure Run | One run a day with 2× coins, switched on from home; an extra one costs 5 rubies |
-
-**Bubbles** open from run 2, as round buttons at the bottom centre (1 use each per run, +1 per Bubble-limit upgrade). DEF blocks all damage for 3 s. INV makes enemies lose you for 6 s and resets bug aim. On the first 2 days DEF is highlighted once when energy drops under 30%, and INV once when a bug is about to fire.
+**Bubbles** open from run 3 (with the ninjas), as round buttons at the bottom centre (1 use each per run, +1 per Bubble-limit upgrade). DEF blocks all damage for 3 s. INV makes enemies lose you for 6 s and resets bug aim. On the first 2 days DEF is highlighted once when energy drops under 30%, and INV once when a bug is about to fire.
 
 **Daily missions** open from run 2 and show on home. There are 2 regular missions (+20 coins, 1 star) and 1 daily mission (+50 coins and 2 rubies, 2 stars); a finished regular mission is replaced next run, the daily one changes each day. When one completes mid-run, "Mission accomplished" rises above the right cliff.
 
 | Mission pool | Goal |
 | --- | --- |
-| Knock out 2 grumpy birds | 2 (across the day) |
-| Knock out 5 grumpy birds in one run | 5 |
-| Knock out 2 birds in one combo | 2 |
-| Grab a 60 coin treasure | 1 |
+| Catch 2 golden birds | 2 (across the day) |
+| Catch 5 golden birds in one run | 5 |
+| Catch 2 golden birds in one combo | 2 |
+| Survive 90 seconds | 90 s |
 | Grab 6 hooks in a row without landing | 6 |
 | Survive 60 seconds | 60 s |
 | Grab 3 energy bolts in one run | 3 |
@@ -107,10 +100,11 @@ shown to you    "Remind me"        in-game message    24 h + 3 free          mor
 **Day 0, in order.**
 
 1. **Home:** the live valley with the hero swinging, a locked next valley, and a 4 s vs 7 s grip demo.
-2. **Run 1:** pure swinging, no meta. Slips teach the grip; the red aim line teaches "keep moving".
+2. **Run 1:** one short intro screen (hooks and shooter bugs), then pure swinging with shooter bugs only and no coins. Slips teach the grip; the red aim line teaches "keep moving".
 3. **End of run 1:** "Slipping off hooks? Get a better grip." The card shows your slips and falls, a side-by-side demo, the arrival time and a live countdown, the notification you will get, and a "Remind me" button.
-4. **Run 2:** daily missions and bubbles open, a guaranteed ruby at 14 s, and the first revive offer (coins).
-5. **Run 3+:** Treasure Run, shop, skins and the ad chest. Play as long as you like.
+4. **Run 2:** golden birds carry the coins (one short intro screen), daily missions open, and a guaranteed ruby bird flies at 14 s.
+5. **Run 3:** ninjas join (one short intro screen) and DEF / INV bubbles unlock.
+6. **Every run:** Treasure Run, shop, skins and the ad chest. Play as long as you like.
 
 | Grip Gloves rule | How it works |
 | --- | --- |
@@ -141,8 +135,8 @@ The game makes money from gloves, rubies and cosmetics under seven fair-play rul
 
 | Currency | Earn | Spend |
 | --- | --- | --- |
-| Coins (soft) | Treasure, bird knockouts (15, combo up to 45), missions, 2× Treasure Run, ad "double this run's coins" | Max energy (30, 60, 100, 150, 210, 280, then +80), bubble limit (150, 300, 500), skins (120–400), new valleys (800, 1500, full game), 1st revive (100) |
-| Rubies (hard, rare) | Rare drop (about 1 per 3–4 runs), 2 per daily mission, daily ad chest (2), IAP | Grip Glove (10), 2nd revive (5), 3rd revive (15), extra Treasure Run (5), Fire trail (40) |
+| Coins (soft) | Golden birds (20, combo up to 60), missions, 2× Treasure Run, ad "double this run's coins" | Max energy (30, 60, 100, 150, 210, 280, then +80), bubble limit (150, 300, 500), skins (120–400), new valleys (800, 1500, full game), 1st revive (100) |
+| Rubies (hard, rare) | Ruby birds (6% of birds, one guaranteed in run 2), 2 per daily mission, daily ad chest (2), IAP | Grip Glove (10), 2nd revive (5), 3rd revive (15), extra Treasure Run (5), Fire trail (40) |
 
 **Revive ladder (per run).** 1st: 100 coins → 2nd: 5 rubies → 3rd: 15 rubies → no 4th. A revive gives 60 energy and 2 s of safety; you have 6 s to decide. Glove Club makes the first revive of each day free.
 
