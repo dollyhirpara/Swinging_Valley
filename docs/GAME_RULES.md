@@ -64,7 +64,7 @@ Enemies arrive one stage at a time so a new player meets one idea per run; only 
 | Your answer | Swing above 460 and they lose you | Swing into one (above 260): 20 coins | Be above 480 when it arrives and the leap misses ("dodged!") |
 | Can be killed | No | **Yes** | No |
 
-**Catching birds.** Each golden bird pays **20 coins** (×2 in a Treasure Run). The coins burst upward and fly into the coin counter at the top. A 2nd or 3rd bird within 4 s is a combo: ×2 then ×3 (up to 60), shown as a COMBO badge. A red **ruby bird** (6% of birds; one guaranteed at 14 s in run 2) also drops a ruby. Catches never give energy.
+**Catching birds.** Each golden bird pays **20 coins** (×2 in a Treasure Run). The coins burst upward and fly into the coin counter at the top. A 2nd or 3rd bird within 4 s is a combo: ×2 then ×3 (up to 60), shown as a COMBO badge. A red **ruby bird** (6% of birds; one guaranteed at 14 s in run 2) also drops a ruby. Catches never give energy, and never cost any: a catch gives 1 s of immunity to that bird's poison, so only flying into the gas at other times drains energy.
 
 ## Pickups, bubbles and missions
 

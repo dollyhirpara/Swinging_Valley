@@ -466,7 +466,7 @@ const TUNING = {
   // grumpy birds and poison clouds
   birdSpeed: 55, birdY: [230, 320], birdMax: 2, birdHitRadius: 46,
   // GOLDEN BIRDS (from run 2) carry the coins: swing into one to knock it out and grab them
-  birdKillSpeed: 260, birdEvery: [4, 7], birdFirst: 3, rubyBirdChance: 0.06,
+  birdKillSpeed: 260, birdEvery: [4, 7], birdFirst: 3, rubyBirdChance: 0.06, catchPoisonSafe: 1.0,   /* a catch never costs energy: 1 s of poison immunity */
   poisonFirst: [2.5, 5], poisonEvery: [4, 7], poisonMinGap: 1.8, poisonPushTo: 2.2,
   poisonWidth: 96, poisonGrow: 1.0, poisonHold: 2.5, poisonFade: 3,
 
@@ -685,7 +685,7 @@ function allMissions() { return missionsOpen() && save.daily ? save.missions.con
 let state = 'menu';
 let P, enemies, spits, poisons, boosters, treasures, parts, floaters, trail, toasts, ghosts, missionFloats, shocks;
 let energy, elapsed, runGold, runRubies, kills, spawnT, boostT, treasT, shake, hitstop, flash, goldFlash, mode, holding, holdId, pointer;
-let tel, banner, runMissionGold, runMissionRubies, lastResult, revivesUsed, bubble, bubblesLeft, reviveTimer, slipFree, treasureRun, firstRubyDone, coinMul, hint, bubbleFlash, combo, lastKO, stage, birdT, paused = false;
+let tel, banner, runMissionGold, runMissionRubies, lastResult, revivesUsed, bubble, bubblesLeft, reviveTimer, slipFree, treasureRun, firstRubyDone, coinMul, hint, bubbleFlash, combo, lastKO, stage, birdT, poisonSafe = 0, paused = false;
 let offerShownThisSession = false, adDoubledThisRun = false;
 const danger = () => 1 + elapsed * T.dangerPerSecond;
 
@@ -694,7 +694,7 @@ function reset() {
   P = { x: 75, y: T.cliffTop - T.playerRadius, vx: 0, vy: 0, r: T.playerRadius, anchor: null, len: 0, targetLen: 0, grounded: true, inv: 1.0, grabT: 9, lastRing: null, ss: 0, chain: 0, lastDir: 1, grip: gripMax(), slipT: 0 };
   enemies = []; spits = []; poisons = []; boosters = []; treasures = []; parts = []; floaters = []; trail = []; toasts = []; ghosts = []; missionFloats = []; shocks = [];
   energy = maxEnergy(); elapsed = 0; runGold = 0; runRubies = 0; kills = 0;
-  stage = Math.min(save.runs, 2); birdT = T.birdFirst;
+  stage = Math.min(save.runs, 2); birdT = T.birdFirst; poisonSafe = 0;
   spawnT = 1.5; boostT = 5; treasT = 2; shake = 0; hitstop = 0; flash = 0; goldFlash = 0; bubbleFlash = null; mode = 'resting';
   holding = false; holdId = null; pointer = { x: 0, y: 0 };
   tel = { time: 0, hang: 0, bug: 0, ninja: 0, poison: 0, falls: 0, slips: 0, expired: 0, bolts: 0, maxChain: 0, dodges: 0, wallHits: 0, leaps: 0, bestCombo: 0, couldNotRevive: false };
@@ -725,6 +725,7 @@ function hurt(amount, label, src) {
 function knockout(e, color) {
   e.dead = true; kills++; hitstop = T.hitStop; shake = T.shakeKO;
   burst(e.x, e.y, color, 18, 380);
+  if (e.type === 'bird') poisonSafe = T.catchPoisonSafe;
   combo = elapsed - lastKO <= T.comboWindow ? combo + 1 : 1; lastKO = elapsed;
   tel.bestCombo = Math.max(tel.bestCombo, combo);
   const v = T.knockoutReward * Math.min(combo, T.comboMax) * coinMul;
@@ -1084,7 +1085,8 @@ function update(dt) {
   spits = spits.filter(a => !a.gone);
 
   // --- Poison clouds: rise from the bird, hold, then fade ---
-  const defended = bubble && bubble.type === 'defense';
+  poisonSafe = Math.max(0, poisonSafe - dt);
+  const defended = (bubble && bubble.type === 'defense') || poisonSafe > 0;
   for (const p of poisons) {
     p.t += dt;
     p.top = p.y - p.y * Math.min(1, p.t / T.poisonGrow);
